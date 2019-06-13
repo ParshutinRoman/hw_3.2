@@ -6,7 +6,7 @@ import chardet
 API_KEY = 'trnsl.1.1.20161025T233221Z.47834a66fd7895d0.a95fd4bfde5c1794fa433453956bd261eae80152'
 URL = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
 
-def translate_it(text, lang):
+def translate_it(text, lang = 'ru'):
 
     params = {
         'key': API_KEY,
@@ -20,7 +20,7 @@ def translate_it(text, lang):
 
 
 def translate_file():
-    files = [f for f in os.listdir(os.path.dirname(os.path.abspath(__file__))) if f.endswith('.txt')]
+    files = [f for f in os.listdir(os.path.dirname(os.path.abspath(__file__))) if f.endswith('.txt') and not f.startswith('translated')]
     for file in files:
         with open(file, 'rb') as f:
             data = f.read()
@@ -28,7 +28,7 @@ def translate_file():
             text = data.decode(result['encoding'])
         name_file = 'translated-' + file
         with open(name_file, 'w') as f:
-           f.write(translate_it(text, 'ru'))
+           f.write(translate_it(text))
 
 
 translate_file()
